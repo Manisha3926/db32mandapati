@@ -1,0 +1,14 @@
+extends layout
+block content
+  h1= title
+  - const foods=[{foodname:"Burger",type:"breakfast",cost:2.00,flavor:"spicy"},{foodname:"Biriyani",type:"lunch",cost:500,flavor:"spicy"},{foodname:"julabjanum",type:"dessert",cost:20,flavor:sweet},]
+  div(class="container-fluid")
+  div(class="row")
+    each food,index in foods
+        div(class="col-sm-4" onclick=`buy(${index})`) #{food.foodname} - #{food.type} - #{food.cost} - #{food.flavor}
+  script.
+     
+      function buy(itemNo)
+      {
+        alert(`You purchased Item ${itemNo+1}`)
+      }
