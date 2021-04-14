@@ -6,3 +6,41 @@ body {
 a {
   color: #00B7FF;
 }
+
+.foodAttr {
+  background-color: rgb(255, 127, 138);
+  width: 120px;
+  margin: 5px;
+  text-align: center;
+  color: rgb(22, 24, 22);
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bolder;
+}
+#myfood{
+  color: #123456;
+  font-weight: 700;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-decoration: underline;
+}
+
+.listitems{
+  margin-right: 2px;
+  margin-bottom: 0;
+  padding: 10px;
+  justify-content:center;
+  font-weight: bold;
+  border-bottom: 2px solid red;
+  border-left: 2px solid red;
+  background-color: azure;
+  border-radius: 1px;
+}
+.special{
+    border-top: 2px solid red;
+    width: 40%;
+}
+.listitems:hover{
+  background-color: rgb(4, 255, 255);
+  color: black;
+}
+

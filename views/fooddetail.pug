@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  h1(id="myfood") title
+
+  - let foodid = toShow._id
+  - let foodname = toShow.foodname
+  - let type = toShow.type
+  - let cost = toShow.cost
+  - let flavor = toShow.flavor
+  div
+    div.row
+      div(class='costumeAttr mr-3') food ID is:
+      div(class='listitems special') #{foodid}
+    div.row
+      div(class='foodAttr mr-3') name is:
+      div(class='listitems') #{foodname}
+    div.row
+      div(class='foodAttr mr-3') type is:
+      div(class='listitems') #{type}
+    div.row
+      div(class='foodAttr mr-3') cost is:
+      div(class='listitems') #{cost}
+    div.row
+      div(class='foodAttr mr-3') flavor is:
+      div(class='listitems') #{flavor}

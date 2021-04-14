@@ -46,11 +46,21 @@ exports.food_create_post = async function (req, res) {
         res.status(500);
     }
 };
-// Handle food delete form on DELETE.
-exports.food_delete = function (req, res) {
-    res.send('NOT IMPLEMENTED: food delete DELETE ' + req.params.id);
+// Handle food delete on DELETE.
+exports.food_delete = async function(req, res) {
+    console.log("delete "  + req.params.id)
+    try {
+        result = await food.findByIdAndDelete( req.params.id)
+        console.log("Removed " + result)
+        res.send(result)
+    } catch (err) {
+        res.status(500)
+        res.send(`{"error": Error deleting ${err}}`);
+    }
 };
-// Handle Costume update form on PUT.
+
+
+// Handle food update form on PUT.
 exports.food_update_put = async function(req, res) {
     console.log(`update on id ${req.params.id} with body ${JSON.stringify(req.body)}`)
     try {
@@ -70,7 +80,6 @@ exports.food_update_put = async function(req, res) {
 };
 
 
-
 // VIEWS
 // Handle a show all view
 exports.food_view_all_Page = async function (req, res) {
@@ -84,3 +93,58 @@ exports.food_view_all_Page = async function (req, res) {
         res.status(500);
     }
 };
+// Handle a show one view with id specified by query
+exports.food_view_one_Page = async function(req, res) {
+    console.log("single view for id "  + req.query.id)
+    try{
+        result = await food.findById( req.query.id)
+        res.render('fooddetail', 
+{ title: 'food Detail', toShow: result });
+    }
+    catch(err){
+        res.status(500)
+        res.send(`{'error': '${err}'}`);
+    }
+};
+// Handle building the view for creating a food.
+// No body, no in path parameter, no query.
+// Does not need to be async
+exports.food_create_Page =  function(req, res) {
+    console.log("create view")
+    try{
+        res.render('foodcreate', { title: 'food Create'});
+    }
+    catch(err){
+        res.status(500)
+        res.send(`{'error': '${err}'}`);
+    }
+};
+// Handle building the view for updating a food.
+// query provides the id
+exports.food_update_Page =  async function(req, res) {
+    console.log("update view for item "+req.query.id)
+    try{
+        let result = await food.findById(req.query.id)
+        res.render('foodupdate', { title: 'food Update', toShow: result });
+    }
+    catch(err){
+        res.status(500)
+        res.send(`{'error': '${err}'}`);
+    }
+};
+// Handle a delete one view with id from query
+exports.food_delete_Page = async function(req, res) {
+    console.log("Delete view for id "  + req.query.id)
+    try{
+        result = await food.findById(req.query.id)
+        res.render('fooddelete', { title: 'food Delete', toShow: result });
+    }
+    catch(err){
+        res.status(500)
+        res.send(`{'error': '${err}'}`);
+    }
+};
+
+
+
+
