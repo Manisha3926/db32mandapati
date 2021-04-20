@@ -84,9 +84,9 @@ exports.food_update_put = async function(req, res) {
 // Handle a show all view
 exports.food_view_all_Page = async function (req, res) {
     try {
-        thefoods = await food.find();
-        console.log("njfndw")
-        res.render('foods', { title: 'food Search Results', results: thefoods });
+        thefood = await food.find();
+        console.log(thefood)
+        res.render('food', { title: 'food Search Results', results: thefood });
     }
     catch (err) {
         res.send(`{"error": ${err}}`)

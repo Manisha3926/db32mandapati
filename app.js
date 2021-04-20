@@ -2,11 +2,26 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+  Account.findOne({ username: username }, function (err, user) {
+  if (err) { return done(err); }
+  if (!user) {
+  return done(null, false, { message: 'Incorrect username.' });
+  }
+  if (!user.validPassword(password)) {
+  return done(null, false, { message: 'Incorrect password.' });
+  }
+  return done(null, user);
+  });
+  }));
 var logger = require('morgan');
 const connectionString = process.env.MONGO_CON
-  mongoose = require('mongoose');
-  mongoose.connect(connectionString,
-    { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose = require('mongoose');
+mongoose.connect(connectionString,
+  { useNewUrlParser: true, useUnifiedTopology: true });
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var foodRouter = require('./routes/food');
@@ -21,18 +36,18 @@ async function recreateDB(){
   await food.deleteMany();
   let instance1 = new food({foodname:"Burger",type:"breakfast",cost:2,flavor:"spicy"});
   instance1.save( function(err,doc) {
-  if(err) return console.error(err);
-  console.log("First object saved")
+    if(err) return console.error(err);
+    console.log("First object saved")
   });
   let instance2 = new food({foodname:"Biriyani",type:"lunch",cost:500,flavor:"spicy"});
   instance2.save( function(err,doc) {
-  if(err) return console.error(err);
-  console.log("Second object saved")
+    if(err) return console.error(err);
+    console.log("Second object saved")
   });
   let instance3 = new food({foodname:"julabjanum",type:"dessert",cost:20,flavor:"sweet"});
   instance3.save( function(err,doc) {
-  if(err) return console.error(err);
-  console.log("Third object saved")
+    if(err) return console.error(err);
+    console.log("Third object saved")
   });
  }
  let reseed = true;
@@ -47,6 +62,14 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
+  }));
+  app.use(passport.initialize());
+  app.use(passport.session());
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
@@ -55,6 +78,13 @@ app.use('/food', foodRouter);
 app.use('/stars', starsRouter);
 app.use('/slot', slotRouter);
 app.use('/resource',resoureRouter)
+// passport config
+// Use the existing connection
+// The Account model
+var Account =require('./models/account'));
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
