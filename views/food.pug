@@ -3,19 +3,30 @@ extends layout
 block content
   h1= title
   - let food= results
+  - let destinationcreate = `dispatchCreate(\"/food/create\")`
   div(class="container-fluid mt-3")
+    button.btn( class="btn-primary ml-1 btn-lg", onclick= destinationcreate) Create
   div(class="row m-1")
     each i in food
-      - let destination = `dispatch(\"/food/update?id=${i._id}\")`
+      - let destinationupdate = `dispatch(\"/food/update?id=${food._id}\")`
+      -let destinationdetail =   `dispatch(\"/food/detail?id=${food._id}\")`
+      - let destinationdelete = `dispatchDelete(\"/food/delete?id=${food._id}\")`
       div(class="col-sm-4  m-1" style=("font-weight:bolder")) #{i.foodname} - #{i.type} - #{i.cost} - #{i.flavor}
-        button.btn(class="btn-primary ml-1", onclick= destination) Update
+        button.btn( class="btn-success ml-1", onclick= destinationdetail) Detail
+        button.btn( class="btn-info ml-1", onclick= destinationupdate) Update
+        button.btn( class="btn-danger ml-1", onclick= destinationdelete) Delete
   
   script.
+     function dispatch(path){
+      window.location.href=path
+      }
       function buy(itemNo)
       {
         alert(`You purchased Item ${itemNo+1}`)
       }
-      function dispatch(path)
-      {
+      function dispatchCreate(path){
+        window.location.href=path
+      }
+      function dispatchDelete(path){
         window.location.href=path
       }

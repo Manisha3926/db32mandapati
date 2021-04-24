@@ -34,17 +34,17 @@ var food = require("./models/food");
 async function recreateDB(){
   // Delete everything
   await food.deleteMany();
-  let instance1 = new food({foodname:"Burger",type:"breakfast",cost:2,flavor:"spicy"});
+  let instance1 = new food({foodname:"Burger",type:"breakfast",cost:1500,flavor:"spicy"});
   instance1.save( function(err,doc) {
     if(err) return console.error(err);
     console.log("First object saved")
   });
-  let instance2 = new food({foodname:"Biriyani",type:"lunch",cost:500,flavor:"spicy"});
+  let instance2 = new food({foodname:"Biriyani",type:"lunch",cost:5100,flavor:"spicy"});
   instance2.save( function(err,doc) {
     if(err) return console.error(err);
     console.log("Second object saved")
   });
-  let instance3 = new food({foodname:"julabjanum",type:"dessert",cost:20,flavor:"sweet"});
+  let instance3 = new food({foodname:"julabjanum",type:"dessert",cost:1600,flavor:"sweet"});
   instance3.save( function(err,doc) {
     if(err) return console.error(err);
     console.log("Third object saved")
@@ -81,7 +81,7 @@ app.use('/resource',resoureRouter)
 // passport config
 // Use the existing connection
 // The Account model
-var Account =require('./models/account'));
+var Account =require('./models/account');
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
